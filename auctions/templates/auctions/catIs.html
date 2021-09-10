@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+
+
+	{% block body %}
+	
+
+	<div class="container">
+		<h2>Active Listings</h2>
+		<div class="row">
+			{% for listing in activelistings %}
+			<div class="col-sm-4">
+				<div class="row">
+					<a href="{% url 'listItem' listing.id %}"><h4>{{listing.title}}</h4></a> <br>
+		    		<p><img src="{{listing.imageUrl}}" class="img-thumbnail" width="300px"></p><br>
+		    		<div class="col-sm-4"><strong>Description:</strong></div>
+		    		<div class="col-sm-8"> {{listing.description}}</div>
+		    		<div class="col-sm-4"><strong><em>Initial Bid: </em></strong></div>
+		    		<div class="col-sm-8"> ${{listing.initialBid|intcomma}}</div>
+		    		<div class="col-sm-4"><strong><em>Current Bid: </em></strong></div>
+		    		<div class="col-sm-8"> ${{listing.highestBid|intcomma}}</div>
+		    		<div class="col"> <span><a class="btn btn-primary" href="{% url 'doBid' listing.id %}">Bid Now</a></span></div>
+		    		
+	    		</div>
+				
+			</div>
+			{% endfor %}
+			
+		</div>
+	
+</div>
+{% endblock %}

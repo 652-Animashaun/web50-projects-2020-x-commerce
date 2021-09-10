@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2>Bid Closed</h2>
+    {% if message %}
+    <h3 style="color: red">{{message}}</h3>
+    {% endif %}
+
+
+
+<div class="row">
+    <div class="col-sm-6 center">
+        
+        <div class="list-group">
+
+            <a class="list-group-item list-group-item-action flex-column align-items-start" href="">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{Item.title}}</h5>
+                    {% if Item.is_active %}
+                    <small>Sold: No</small>
+                    {% else %}
+                    <small>Sold: Yes</small>
+                    {% endif %}
+                </div>
+                <p class="mb-1">{{Item.description}}</p>
+                {% if Item.is_active %}
+                <small>Highest bidder: {{Item.highestBidder.bidder}}</small>
+                {% else %}
+                <small>Sold to: {{Item.highestBidder.bidder}}</small>
+                {% endif %}
+                
+            </a>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

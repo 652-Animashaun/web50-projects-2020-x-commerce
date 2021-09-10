@@ -1,0 +1,85 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<div class= "container">
+	<div class= "col-sm-12">
+      
+      {% if message %}
+      <h4 style="color: red;">{{message}}</h4>
+      {% endif %}
+	</div>
+	<div class="row">
+		<div class="col-sm-8">
+			<div>
+	            <img src="{{Item.imageUrl}}" class="img-fluid" width="600px">
+	        </div>
+		</div>
+		<div class="col-sm-4 h6">
+			<h2>{{Item.title}}</h2>
+			<div class="row">
+				<div class="col-sm-4"><strong>Description:</strong></div>
+		    		<div class="col-sm-8"> {{Item.description}}</div>
+		    		<div class="col-sm-4"><strong><em>Starting Bid: </em></strong></div>
+		    		<div class="col-sm-8 text-muted"> ${{Item.initialBid}}</div>
+		    		<div class="col-sm-4"><strong><em>Current Bid: </em></strong></div>
+		    		<div class="col-sm-8 text-muted"> ${{Item.highestBid}}</div>
+		    		<div class="col-sm-4"><strong><em>Category: </em></strong></div>
+		    		<div class="col-sm-8"> {{Item.Category}}</div>	
+		    		<div class="col-sm-4"><strong><em>Highest Bidder: </em></strong></div>
+		    		<div class="col-sm-8"> {{Item.highestBidder.bidder}}</div>	
+			</div>
+			<div>
+				<a class="btn btn-primary"  data-toggle="collapse" href="#bid" role="button" aria-expanded="false" aria-controls="bid">Bid Now</a>
+				<div class="collapse" id="bid">
+					<div class="card card-body">
+						<form action="{% url 'doBid' Item.id %}" method="POST">
+				    		{% csrf_token %}
+				    		{{bidform}}
+				    		<input type="submit" name="submit">
+				    	</form>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			<div class="d-flex justify-content-start ltitle">
+				<a class="btn btn-primary  btn-sm" href="{% url 'addWatchlist' Item.id %}">Add To Watchlist</a>
+			</div>
+			<div class="d-flex justify-content-start ltitle">
+				<a class="btn btn-primary  btn-sm" data-toggle="collapse" href="#newcomment" role="button" aria-expanded="false" aria-controls="newcomment"> Read/Write comments </a>
+			</div>
+			<div class="collapse" id="newcomment">
+				<div class="card card-body">
+					<form action="{% url 'writecomment' Item.id %}" method="POST">
+						{% csrf_token %}
+						{{form}}
+						<input type="submit" name="submit">
+					</form>
+				</div>
+				<div>
+					{% for comment in comments %}
+					<ul>
+						<li>{{comment}}</li>
+					</ul>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="d-flex justify-content-start ltitle">
+				{% if Item.vendor.id == request.user.id %}
+				<a class="btn btn-danger" href="{% url 'closeBid' Item.id %}">Close Bid</a>
+				{% endif %}
+			</div>
+
+
+		</div>
+		
+
+			
+		
+	</div>
+</div>
+{% endblock %}

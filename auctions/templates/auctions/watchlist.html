@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+
+{% block body %}
+
+<h2>Your Watchlist</h2>
+    {% if message %}
+<h3 style="color: red">{{message}}</h3>
+    {% endif %}
+
+
+
+<div class="row">
+    <div class="col-sm-6 center">
+        {% for item in watchlist %}
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action flex-column align-items-start" href="{% url 'listItem' item.listingId.id %}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{item.listingId.title}}</h5>
+                    <small>Active: {{item.listingId.is_active}}</small>
+                </div>
+                <p class="mb-1">{{item.listingId.description}}</p>
+                <small>Highest Bid: ${{item.listingId.highestBid|intcomma}}</small>
+            </a>
+
+            
+            <div class="d-flex flex-row-reverse">
+                <span><a class="btn btn-danger btn-sm" href="{% url 'delWatchlist' item.listingId.id %}"> Unwish </a></span>
+            </div>
+
+
+        </div>
+        {% endfor %}
+    </div>
+
+
+</div>
+
+
+{% endblock %}

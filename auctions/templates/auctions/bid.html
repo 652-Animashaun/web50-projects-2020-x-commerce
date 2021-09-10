@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2>Place your bid on this {{Item.title}}</h2>
+    {% if message %}
+    <h3 style="color: red">{{message}} ${{Item.highestBid}}</h3>
+    {% endif %}
+
+
+
+    <div>
+    	<div>
+    		<p>Name: {{Item.title}}</p>
+    		<p><img src="{{Item.imageUrl}}" width="300px"></p>
+    		<p>Description: {{Item.description}}</p>
+    		<p>Starting Bid: ${{Item.initialBid}}</p>
+    		<p>Current Bid: ${{Item.highestBid}}</p>
+    		<p>Highest Bidder: {{Item.highestBidder.bidder}}</p>
+    	</div>
+    	<form action="{% url 'doBid' Item.id %}" method="POST">
+    		{% csrf_token %}
+    		{{form}}
+    		<input type="submit" name="submit">
+    	</form>
+    
+    </div>
+
+
+{% endblock %}
